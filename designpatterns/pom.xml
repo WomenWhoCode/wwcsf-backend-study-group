@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>designpatterns</name>
-    <description>Design Patterns Best Practices</description>
+    <description>Design Patterns</description>
 
     <properties>
         <java.version>1.8</java.version>
