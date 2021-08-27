@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author prachi.shah
  */
+// Delete this comment after demo
 @RestController
 @RequestMapping(value = "/studentmanagementservice/",
         consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -51,10 +52,6 @@ public class StudentManagementController {
         AddUpdateStudentResponse addUpdateStudentResponse = studentManagementService
                 .addStudent(addUpdateStudentRequest);
 
-        if (addUpdateStudentResponse == null) {
-            return getGetStudentResponseResponseEntity("Error adding a new student");
-        }
-
         log.info("Successfully added Student={} {} with enrollment status={}",
                 addUpdateStudentRequest.getFirstName(),
                 addUpdateStudentRequest.getLastName(),
@@ -65,6 +62,8 @@ public class StudentManagementController {
     @GetMapping(value = EndpointConstants.GET_STUDENT_RECORD_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getStudentById(@PathVariable @NonNull Long studentId) {
+
+
 
         try {
             GetStudentResponse getStudentResponse = studentManagementService.getStudentById(studentId);
