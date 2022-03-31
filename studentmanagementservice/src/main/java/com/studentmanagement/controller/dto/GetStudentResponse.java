@@ -4,83 +4,83 @@ import java.sql.Date;
 
 public class GetStudentResponse {
 
-    private Long studentId;
+  private Long studentId;
 
-    private String firstName;
+  private String firstName;
 
-    private String lastName;
+  private String lastName;
 
-    private Date dateOfBirth;
+  private Date dateOfBirth;
 
-    private String yearOfEnrollment;
+  private String yearOfEnrollment;
 
-    private Degree degree;
+  private Degree degree;
 
-    private String advisor;
+  private String advisor;
 
-    private Status enrollmentStatus;
+  private Status enrollmentStatus;
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public Long getStudentId() {
-        return studentId;
-    }
+  public Long getStudentId() {
+    return studentId;
+  }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
+  public void setStudentId(Long studentId) {
+    this.studentId = studentId;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
+  public String getLastName() {
+    return lastName;
+  }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
+  public Date getDateOfBirth() {
+    return dateOfBirth;
+  }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+  public void setDateOfBirth(Date dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
+  }
 
-    public String getYearOfEnrollment() {
-        return yearOfEnrollment;
-    }
+  public String getYearOfEnrollment() {
+    return yearOfEnrollment;
+  }
 
-    public void setYearOfEnrollment(String yearOfEnrollment) {
-        this.yearOfEnrollment = yearOfEnrollment;
-    }
+  public void setYearOfEnrollment(String yearOfEnrollment) {
+    this.yearOfEnrollment = yearOfEnrollment;
+  }
 
-    public Degree getDegree() {
-        return degree;
-    }
+  public Degree getDegree() {
+    return degree;
+  }
 
-    public void setDegree(Degree degree) {
-        this.degree = degree;
-    }
+  public void setDegree(Degree degree) {
+    this.degree = degree;
+  }
 
-    public String getAdvisor() {
-        return advisor;
-    }
+  public String getAdvisor() {
+    return advisor;
+  }
 
-    public void setAdvisor(String advisor) {
-        this.advisor = advisor;
-    }
+  public void setAdvisor(String advisor) {
+    this.advisor = advisor;
+  }
 
-    public Status getEnrollmentStatus() {
-        return enrollmentStatus;
-    }
+  public Status getEnrollmentStatus() {
+    return enrollmentStatus;
+  }
 
-    public void setEnrollmentStatus(Status enrollmentStatus) {
-        this.enrollmentStatus = enrollmentStatus;
-    }
+  public void setEnrollmentStatus(Status enrollmentStatus) {
+    this.enrollmentStatus = enrollmentStatus;
+  }
 }

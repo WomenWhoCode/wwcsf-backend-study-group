@@ -28,100 +28,100 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/studentmanagementservice/",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    consumes = MediaType.APPLICATION_JSON_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE)
 public class StudentManagementController {
 
-    private static final Logger log = LoggerFactory.getLogger(StudentManagementController.class);
+  private static final Logger log = LoggerFactory.getLogger(StudentManagementController.class);
 
-    private final StudentManagementService studentManagementService;
+  private final StudentManagementService studentManagementService;
 
-    @Autowired
-    public StudentManagementController(final StudentManagementService studentManagementService) {
-        this.studentManagementService = studentManagementService;
+  @Autowired
+  public StudentManagementController(final StudentManagementService studentManagementService) {
+    this.studentManagementService = studentManagementService;
+  }
+
+  @PostMapping(value = EndpointConstants.ADD_STUDENT_RECORD, consumes = MediaType.APPLICATION_JSON_VALUE, produces
+      = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public ResponseEntity addStudent(
+      @RequestBody @NonNull AddUpdateStudentRequest addUpdateStudentRequest
+  ) {
+
+    AddUpdateStudentResponse addUpdateStudentResponse = studentManagementService
+        .addStudent(addUpdateStudentRequest);
+
+    if (addUpdateStudentResponse == null) {
+      return getGetStudentResponseResponseEntity("Error adding a new student");
     }
 
-    @PostMapping(value = EndpointConstants.ADD_STUDENT_RECORD, consumes = MediaType.APPLICATION_JSON_VALUE, produces
-            = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity addStudent(
-            @RequestBody @NonNull AddUpdateStudentRequest addUpdateStudentRequest
-    ) {
+    log.info("Successfully added Student={} {} with enrollment status={}",
+        addUpdateStudentRequest.getFirstName(),
+        addUpdateStudentRequest.getLastName(),
+        addUpdateStudentResponse.getEnrollmentStatus().name());
+    return new ResponseEntity(addUpdateStudentResponse, HttpStatus.CREATED);
+  }
 
-        AddUpdateStudentResponse addUpdateStudentResponse = studentManagementService
-                .addStudent(addUpdateStudentRequest);
+  @GetMapping(value = EndpointConstants.GET_STUDENT_RECORD_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity getStudentById(@PathVariable @NonNull Long studentId) {
 
-        if (addUpdateStudentResponse == null) {
-            return getGetStudentResponseResponseEntity("Error adding a new student");
-        }
-
-        log.info("Successfully added Student={} {} with enrollment status={}",
-                addUpdateStudentRequest.getFirstName(),
-                addUpdateStudentRequest.getLastName(),
-                addUpdateStudentResponse.getEnrollmentStatus().name());
-        return new ResponseEntity(addUpdateStudentResponse, HttpStatus.CREATED);
+    try {
+      GetStudentResponse getStudentResponse = studentManagementService.getStudentById(studentId);
+      if (getStudentResponse == null) {
+        return getGetStudentResponseResponseEntity("Error finding student Id=" + studentId);
+      }
+      log.info("Successfully found student={} {} with id={}",
+          getStudentResponse.getFirstName(), getStudentResponse.getLastName(), studentId);
+      return new ResponseEntity(getStudentResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      return getGetStudentResponseResponseEntity(e.getMessage());
     }
+  }
 
-    @GetMapping(value = EndpointConstants.GET_STUDENT_RECORD_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getStudentById(@PathVariable @NonNull Long studentId) {
+  @PutMapping(value = EndpointConstants.UPDATE_STUDENT_RECORD_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity updateStudentById(
+      @RequestBody @NonNull AddUpdateStudentRequest addUpdateStudentRequest,
+      @PathVariable @NonNull Long studentId
+  ) {
 
-        try {
-            GetStudentResponse getStudentResponse = studentManagementService.getStudentById(studentId);
-            if (getStudentResponse == null) {
-                return getGetStudentResponseResponseEntity("Error finding student Id=" + studentId);
-            }
-            log.info("Successfully found student={} {} with id={}",
-                    getStudentResponse.getFirstName(), getStudentResponse.getLastName(), studentId);
-            return new ResponseEntity(getStudentResponse, HttpStatus.OK);
-        } catch (Exception e) {
-            return getGetStudentResponseResponseEntity(e.getMessage());
-        }
+    try {
+      AddUpdateStudentResponse addUpdateStudentResponse = studentManagementService
+          .updateStudentById(addUpdateStudentRequest, studentId);
+      if (addUpdateStudentResponse == null) {
+        return getGetStudentResponseResponseEntity("Error updating student Id=" + studentId);
+      }
+      log.info("Successfully updated student={} {} with id={}",
+          addUpdateStudentRequest.getFirstName(), addUpdateStudentRequest.getLastName(), studentId);
+      return new ResponseEntity(addUpdateStudentResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      return getGetStudentResponseResponseEntity(e.getMessage());
     }
+  }
 
-    @PutMapping(value = EndpointConstants.UPDATE_STUDENT_RECORD_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateStudentById(
-            @RequestBody @NonNull AddUpdateStudentRequest addUpdateStudentRequest,
-            @PathVariable @NonNull Long studentId
-    ) {
+  @DeleteMapping(value = EndpointConstants.DELETE_STUDENT_RECORD_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE
+      , produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity deleteStudentById(@PathVariable @NonNull Long studentId) {
 
-        try {
-            AddUpdateStudentResponse addUpdateStudentResponse = studentManagementService
-                    .updateStudentById(addUpdateStudentRequest, studentId);
-            if (addUpdateStudentResponse == null) {
-                return getGetStudentResponseResponseEntity("Error updating student Id=" + studentId);
-            }
-            log.info("Successfully updated student={} {} with id={}",
-                    addUpdateStudentRequest.getFirstName(), addUpdateStudentRequest.getLastName(), studentId);
-            return new ResponseEntity(addUpdateStudentResponse, HttpStatus.OK);
-        } catch (Exception e) {
-            return getGetStudentResponseResponseEntity(e.getMessage());
-        }
+    try {
+      DeleteStudentResponse deleteStudentResponse = studentManagementService
+          .deleteStudentById(studentId);
+      if (deleteStudentResponse == null) {
+        return getGetStudentResponseResponseEntity("Error deleting student Id=" + studentId);
+      }
+      log.info("Successfully deleted student={}", studentId);
+      return new ResponseEntity(deleteStudentResponse, HttpStatus.OK);
+    } catch (Exception e) {
+      return getGetStudentResponseResponseEntity(e.getMessage());
     }
+  }
 
-    @DeleteMapping(value = EndpointConstants.DELETE_STUDENT_RECORD_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE
-            , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity deleteStudentById(@PathVariable @NonNull Long studentId) {
-
-        try {
-            DeleteStudentResponse deleteStudentResponse = studentManagementService
-                    .deleteStudentById(studentId);
-            if (deleteStudentResponse == null) {
-                return getGetStudentResponseResponseEntity("Error deleting student Id=" + studentId);
-            }
-            log.info("Successfully deleted student={}", studentId);
-            return new ResponseEntity(deleteStudentResponse, HttpStatus.OK);
-        } catch (Exception e) {
-            return getGetStudentResponseResponseEntity(e.getMessage());
-        }
-    }
-
-    private ResponseEntity getGetStudentResponseResponseEntity(
-            String errorMessage
-    ) {
-        final Error error = new Error(HttpStatus.BAD_REQUEST, errorMessage);
-        log.error(error.getErrorMessage());
-        return new ResponseEntity(error, error.getHttpStatus());
-    }
+  private ResponseEntity getGetStudentResponseResponseEntity(
+      String errorMessage
+  ) {
+    final Error error = new Error(HttpStatus.BAD_REQUEST, errorMessage);
+    log.error(error.getErrorMessage());
+    return new ResponseEntity(error, error.getHttpStatus());
+  }
 }
