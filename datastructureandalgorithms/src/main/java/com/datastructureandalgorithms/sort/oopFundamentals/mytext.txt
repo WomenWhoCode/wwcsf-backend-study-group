@@ -1,4 +1,0 @@
-Hello, this is a new mytext.txt file. This file is used to test for FileNotFoundException which is a Checked Exception.
-Also, IOException is a Checked Exception.
-Thanks!
-Bye.
